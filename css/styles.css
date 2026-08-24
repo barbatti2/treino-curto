@@ -1,0 +1,144 @@
+html, body {
+  height: 100%;
+}
+
+/* ---------- Moldura de celular ---------- */
+.phone {
+  position: relative;
+  width: 100%;
+  max-width: 375px;
+  height: 100vh;
+  margin: 0 auto;
+  background: #0A0A0B;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .phone {
+    height: min(100vh, 812px);
+    margin-top: max(1.5rem, calc((100vh - 812px) / 2));
+    border-radius: 2.5rem;
+    border: 8px solid #1B1B1E;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.7);
+  }
+}
+
+.screen {
+  display: none;
+  height: 100%;
+  animation: fadeIn 0.18s ease-out;
+}
+.screen.active {
+  display: block;
+}
+#screen-login.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Bottom nav ---------- */
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #8D8D92;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.nav-btn i {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.nav-btn span {
+  font-weight: 700;
+  font-size: 0.78rem;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: max-width 0.25s ease, opacity 0.2s ease, margin-left 0.25s ease;
+}
+.nav-btn.active {
+  color: #F5F4F2;
+  background-color: #1B1B1E;
+}
+.nav-btn.active span {
+  max-width: 80px;
+  opacity: 1;
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  position: absolute;
+  left: 50%;
+  bottom: 5.5rem;
+  transform: translateX(-50%) translateY(12px);
+  background: #1B1B1E;
+  border: 1px solid #2B2B2F;
+  color: #F5F4F2;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 50;
+  white-space: nowrap;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast.success {
+  border-color: #4CAF7D;
+}
+.toast.success::before {
+  content: "✓ ";
+  color: #4CAF7D;
+}
+
+/* ---------- Scrollbar discreto ---------- */
+#main-scroll::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* ---------- Utilitários ---------- */
+.chip {
+  border: 1px solid #2B2B2F;
+  color: #8D8D92;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: all 0.15s ease;
+}
+.chip.selected {
+  background-color: #6B3527;
+  border-color: #C9482F;
+  color: #F5F4F2;
+}
+
+.exercise-row {
+  border: 1px solid #2B2B2F;
+  border-radius: 1rem;
+  transition: border-color 0.15s ease;
+}
+.exercise-row.selected {
+  border-color: #C9482F;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
