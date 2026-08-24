@@ -16,7 +16,7 @@ export const FIREBASE_CONFIG = {
 // 2) E-mail interno fixo usado por trás do login por senha única.
 // Crie esse usuário manualmente em Firebase Auth > Users > Add user,
 // com a senha que vocês vão usar para entrar no app.
-export const INTERNAL_EMAIL = "app@seudominio.com";
+export const INTERNAL_EMAIL = "gabriel_barbatti@hotmail.com";
 
 // 3) Os 2 perfis do app. O "id" é usado como nome da subcoleção em profiles/{id}/...
 export const PROFILES = [
