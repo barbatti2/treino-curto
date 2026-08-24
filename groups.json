@@ -1,0 +1,34 @@
+[
+  {
+    "id": "peito",
+    "nome": "Peito"
+  },
+  {
+    "id": "costas",
+    "nome": "Costas"
+  },
+  {
+    "id": "ombro",
+    "nome": "Ombro"
+  },
+  {
+    "id": "biceps",
+    "nome": "Bíceps"
+  },
+  {
+    "id": "triceps",
+    "nome": "Tríceps"
+  },
+  {
+    "id": "perna",
+    "nome": "Perna"
+  },
+  {
+    "id": "gluteo_posterior",
+    "nome": "Posterior & Glúteo"
+  },
+  {
+    "id": "abdomen",
+    "nome": "Abdômen"
+  }
+]
