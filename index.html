@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+<title>Treino</title>
+<meta name="theme-color" content="#0A0A0B" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          paper: "#0A0A0B",
+          card: "#1B1B1E",
+          ink: "#F5F4F2",
+          muted: "#8D8D92",
+          clay: "#C9482F",
+          claySoft: "#6B3527",
+          emerald: "#4CAF7D",
+          hairline: "#2B2B2F",
+        },
+        fontFamily: {
+          display: ["Anton", "sans-serif"],
+          body: ["Manrope", "sans-serif"],
+        },
+      },
+    },
+  };
+</script>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-[#000] font-body text-ink antialiased">
+
+<div id="phone" class="phone">
+  <!-- ================= LOGIN ================= -->
+  <section id="screen-login" class="screen flex flex-col items-center justify-center h-full px-8">
+    <h1 class="font-display uppercase tracking-tight text-4xl mb-1">Treino</h1>
+    <p class="text-muted text-sm mb-10">Entre para continuar</p>
+    <form id="form-login" class="w-full flex flex-col gap-4">
+      <input
+        id="input-senha"
+        type="password"
+        inputmode="numeric"
+        autocomplete="current-password"
+        placeholder="Senha"
+        class="w-full bg-card border border-hairline rounded-2xl px-5 py-4 text-center text-lg tracking-widest placeholder:text-muted placeholder:tracking-normal outline-none focus:border-clay transition-colors"
+      />
+      <button
+        type="submit"
+        id="btn-login"
+        class="w-full bg-clay text-ink font-bold rounded-full py-4 active:scale-95 transition-transform disabled:opacity-50"
+      >
+        Entrar
+      </button>
+      <p id="login-erro" class="text-clay text-sm text-center h-4"></p>
+    </form>
+  </section>
+
+  <!-- ================= APP SHELL (header + telas + nav) ================= -->
+  <div id="app-shell" class="hidden h-full flex flex-col">
+    <!-- Header -->
+    <header class="flex items-center justify-between px-5 pt-6 pb-4 shrink-0">
+      <h1 id="header-title" class="font-display uppercase tracking-tight text-2xl">Início</h1>
+      <div class="flex items-center gap-2" id="profile-toggle"></div>
+    </header>
+
+    <!-- Screens -->
+    <main class="flex-1 overflow-y-auto px-5 pb-4" id="main-scroll">
+      <section id="screen-home" class="screen"></section>
+      <section id="screen-workouts" class="screen"></section>
+      <section id="screen-create" class="screen"></section>
+      <section id="screen-execute" class="screen"></section>
+      <section id="screen-history" class="screen"></section>
+    </main>
+
+    <!-- Bottom nav -->
+    <nav id="bottom-nav" class="shrink-0 border-t border-hairline px-3 pt-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] flex items-center justify-around bg-paper">
+      <button data-nav="home" class="nav-btn">
+        <i data-lucide="house"></i>
+        <span>Início</span>
+      </button>
+      <button data-nav="workouts" class="nav-btn">
+        <i data-lucide="dumbbell"></i>
+        <span>Treinos</span>
+      </button>
+      <button data-nav="history" class="nav-btn">
+        <i data-lucide="history"></i>
+        <span>Histórico</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
