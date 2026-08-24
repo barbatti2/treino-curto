@@ -25,7 +25,15 @@ export function dateKey(d) {
 
 const DIAS_SEMANA = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 const DIAS_SEMANA_CURTO = ["D", "S", "T", "Q", "Q", "S", "S"];
+const MESES_ABREV = ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"];
 export { DIAS_SEMANA, DIAS_SEMANA_CURTO };
+
+// "SEGUNDA, 24 AGO"
+export function subtituloDataHoje() {
+  const hoje = new Date();
+  const dia = DIAS_SEMANA[hoje.getDay()].toUpperCase();
+  return `${dia}, ${hoje.getDate()} ${MESES_ABREV[hoje.getMonth()]}`;
+}
 
 // Retorna os 7 objetos Date de segunda a domingo da semana atual
 export function semanaAtual() {

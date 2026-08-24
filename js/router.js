@@ -12,6 +12,7 @@ const TITULOS = {
 };
 
 const NAV_SCREENS = new Set(["home", "workouts", "history"]);
+const HEADER_SCREENS = new Set(["home", "workouts", "history"]);
 
 let telaAtual = "home";
 let onNavigate = null;
@@ -24,7 +25,9 @@ export function irPara(tela) {
   telaAtual = tela;
   document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
   document.getElementById(`screen-${tela}`).classList.add("active");
-  document.getElementById("header-title").textContent = TITULOS[tela] || "";
+
+  document.getElementById("app-header").classList.toggle("hidden", !HEADER_SCREENS.has(tela));
+  definirTitulo(TITULOS[tela] || "");
 
   document.querySelectorAll(".nav-btn").forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.nav === tela);
@@ -33,6 +36,18 @@ export function irPara(tela) {
   atualizarNavVisibilidade(NAV_SCREENS.has(tela));
 
   if (onNavigate) onNavigate(tela);
+}
+
+// Permite que uma tela (ex. Início) defina título + subtítulo customizados
+export function definirTitulo(titulo, subtitulo = "") {
+  document.getElementById("header-title").textContent = titulo;
+  const sub = document.getElementById("header-subtitle");
+  if (subtitulo) {
+    sub.textContent = subtitulo;
+    sub.classList.remove("hidden");
+  } else {
+    sub.classList.add("hidden");
+  }
 }
 
 export function atualizarNavVisibilidade(visivel) {
