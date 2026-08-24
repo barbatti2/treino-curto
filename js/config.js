@@ -4,12 +4,13 @@
 
 // 1) Cole aqui a config do seu projeto Firebase (Configurações do projeto > Geral > Seus apps > SDK)
 export const FIREBASE_CONFIG = {
-  apiKey: "COLE_AQUI",
-  authDomain: "COLE_AQUI.firebaseapp.com",
-  projectId: "COLE_AQUI",
-  storageBucket: "COLE_AQUI.appspot.com",
-  messagingSenderId: "COLE_AQUI",
-  appId: "COLE_AQUI",
+  apiKey: "AIzaSyDeQdktBqVxHdvmR19S4riBV182Lz5wdKk",
+  authDomain: "treino-curto.firebaseapp.com",
+  projectId: "treino-curto",
+  storageBucket: "treino-curto.firebasestorage.app",
+  messagingSenderId: "552277045282",
+  appId: "1:552277045282:web:e9cec0856bc58accfcda7b",
+  measurementId: "G-PHL66CK39N"
 };
 
 // 2) E-mail interno fixo usado por trás do login por senha única.
