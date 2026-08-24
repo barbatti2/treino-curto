@@ -5,7 +5,15 @@ import { icons, showToast, DIAS_SEMANA } from "../utils.js";
 import { irPara } from "../router.js";
 import { renderWorkouts } from "./workouts.js";
 
-const DIAS_OPCOES = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+const DIAS_OPCOES = [
+  { nome: "Segunda", letra: "S" },
+  { nome: "Terça", letra: "T" },
+  { nome: "Quarta", letra: "Q" },
+  { nome: "Quinta", letra: "Q" },
+  { nome: "Sexta", letra: "S" },
+  { nome: "Sábado", letra: "S" },
+  { nome: "Domingo", letra: "D" },
+];
 
 let selecionados = new Map(); // exercicioId -> { series, reps }
 let diaEscolhido = null;
@@ -16,42 +24,50 @@ export function renderCreateWorkout() {
 
   const el = document.getElementById("screen-create");
 
-  const gruposHtml = GROUPS.map((g) => {
+  const gruposHtml = GROUPS.map((g, gi) => {
     const exs = Object.entries(EXERCISES).filter(([, e]) => e.grupo === g.id);
     return `
-      <div class="mb-5">
-        <h3 class="text-muted text-xs font-bold uppercase tracking-wide mb-2">${g.nome}</h3>
-        <div class="flex flex-col gap-2">
-          ${exs
-            .map(
-              ([id, e]) => `
-            <div class="exercise-row" data-id="${id}">
-              <button type="button" class="ex-toggle w-full flex items-center gap-3 p-2.5 text-left">
-                <img src="${e.imagem}" loading="lazy" class="w-11 h-11 rounded-lg object-cover bg-paper shrink-0" />
-                <span class="flex-1 text-sm font-semibold">${e.nome}</span>
-                <i data-lucide="plus" class="w-[18px] h-[18px] text-muted ex-icon shrink-0"></i>
-              </button>
-              <div class="ex-detalhe hidden px-3 pb-3 gap-3">
-                <label class="flex-1">
-                  <span class="text-[11px] text-muted font-bold">Séries</span>
-                  <input type="number" min="1" value="3" class="in-series w-full bg-paper border border-hairline rounded-xl px-3 py-2 mt-1 text-sm outline-none focus:border-clay" />
-                </label>
-                <label class="flex-1">
-                  <span class="text-[11px] text-muted font-bold">Repetições</span>
-                  <input type="number" min="1" value="12" class="in-reps w-full bg-paper border border-hairline rounded-xl px-3 py-2 mt-1 text-sm outline-none focus:border-clay" />
-                </label>
-              </div>
-            </div>`
-            )
-            .join("")}
+      <div class="mb-3 border border-hairline rounded-2xl overflow-hidden">
+        <button type="button" class="group-header w-full px-4 py-3.5 bg-card" data-group="${gi}">
+          <span class="text-sm font-extrabold uppercase tracking-wide">${g.nome}</span>
+          <span class="flex items-center gap-2">
+            <span class="text-muted text-xs font-bold group-count" data-group-count="${gi}"></span>
+            <i data-lucide="chevron-down" class="w-[18px] h-[18px] text-muted group-chevron"></i>
+          </span>
+        </button>
+        <div class="group-body" data-group-body="${gi}">
+          <div class="flex flex-col gap-2 p-3 pt-1">
+            ${exs
+              .map(
+                ([id, e]) => `
+              <div class="exercise-row" data-id="${id}">
+                <button type="button" class="ex-toggle w-full flex items-center gap-3 p-2.5 text-left">
+                  <img src="${e.imagem}" loading="lazy" class="w-11 h-11 rounded-lg object-cover bg-paper shrink-0" />
+                  <span class="flex-1 text-sm font-semibold">${e.nome}</span>
+                  <i data-lucide="plus" class="w-[18px] h-[18px] text-muted ex-icon shrink-0"></i>
+                </button>
+                <div class="ex-detalhe hidden px-3 pb-3 gap-3">
+                  <label class="flex-1">
+                    <span class="text-[11px] text-muted font-bold">Séries</span>
+                    <input type="number" min="1" value="3" class="in-series w-full bg-paper border border-hairline rounded-xl px-3 py-2 mt-1 text-sm outline-none focus:border-clay" />
+                  </label>
+                  <label class="flex-1">
+                    <span class="text-[11px] text-muted font-bold">Repetições</span>
+                    <input type="number" min="1" value="12" class="in-reps w-full bg-paper border border-hairline rounded-xl px-3 py-2 mt-1 text-sm outline-none focus:border-clay" />
+                  </label>
+                </div>
+              </div>`
+              )
+              .join("")}
+          </div>
         </div>
       </div>`;
   }).join("");
 
   el.innerHTML = `
-    <div class="flex items-center gap-3 mb-5">
-      <button id="btn-voltar" class="text-muted p-1"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
-      <h2 class="font-display uppercase text-lg tracking-tight">Nova ficha</h2>
+    <div class="flex items-center gap-3 mb-6">
+      <button id="btn-voltar" class="text-muted p-1"><i data-lucide="chevron-left" class="w-7 h-7"></i></button>
+      <h2 class="font-display uppercase text-4xl tracking-tight leading-none">Nova ficha</h2>
     </div>
 
     <label class="block mb-5">
@@ -62,9 +78,9 @@ export function renderCreateWorkout() {
 
     <div class="mb-6">
       <span class="text-xs text-muted font-bold uppercase tracking-wide">Dia da semana (opcional)</span>
-      <div class="flex flex-wrap gap-2 mt-2" id="dias-chips">
+      <div class="flex flex-wrap items-center gap-2 mt-2" id="dias-chips">
         <button type="button" data-dia="" class="chip dia-chip selected">Sem dia fixo</button>
-        ${DIAS_OPCOES.map((d) => `<button type="button" data-dia="${d}" class="chip dia-chip">${d}</button>`).join("")}
+        ${DIAS_OPCOES.map((d) => `<button type="button" data-dia="${d.nome}" title="${d.nome}" class="dia-square dia-chip">${d.letra}</button>`).join("")}
       </div>
     </div>
 
@@ -82,6 +98,15 @@ export function renderCreateWorkout() {
   icons();
 
   el.querySelector("#btn-voltar").addEventListener("click", () => irPara("workouts"));
+
+  el.querySelectorAll(".group-header").forEach((header) => {
+    const body = el.querySelector(`[data-group-body="${header.dataset.group}"]`);
+    header.addEventListener("click", () => {
+      const abrir = !header.classList.contains("open");
+      header.classList.toggle("open", abrir);
+      body.classList.toggle("open", abrir);
+    });
+  });
 
   el.querySelectorAll(".dia-chip").forEach((chip) => {
     chip.addEventListener("click", () => {
@@ -115,6 +140,7 @@ export function renderCreateWorkout() {
       }
       icons();
       atualizarContador(el);
+      atualizarContadoresGrupo(el);
     });
   });
 
@@ -154,6 +180,7 @@ export function renderCreateWorkout() {
   });
 
   atualizarContador(el);
+  atualizarContadoresGrupo(el);
 }
 
 function atualizarContador(el) {
@@ -162,4 +189,12 @@ function atualizarContador(el) {
   el.querySelector("#contador-selecionados").textContent =
     n === 0 ? "Nenhum exercício selecionado" : `${n} exercício${n === 1 ? "" : "s"} selecionado${n === 1 ? "" : "s"}`;
   el.querySelector("#btn-salvar").disabled = !(nome && n > 0);
+}
+
+function atualizarContadoresGrupo(el) {
+  el.querySelectorAll(".group-body").forEach((body) => {
+    const n = body.querySelectorAll(".exercise-row.selected").length;
+    const badge = el.querySelector(`[data-group-count="${body.dataset.groupBody}"]`);
+    if (badge) badge.textContent = n > 0 ? `${n} selecionado${n === 1 ? "" : "s"}` : "";
+  });
 }

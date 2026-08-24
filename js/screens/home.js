@@ -7,12 +7,14 @@ import {
   calcularStreak,
   dateKey,
   DIAS_SEMANA_CURTO,
+  subtituloDataHoje,
 } from "../utils.js";
 import { iniciarExecucao } from "./execute.js";
-import { irPara } from "../router.js";
+import { irPara, definirTitulo } from "../router.js";
 
 export async function renderHome() {
   const el = document.getElementById("screen-home");
+  definirTitulo("Hoje", subtituloDataHoje());
   el.innerHTML = `<p class="text-muted text-sm py-10 text-center">Carregando…</p>`;
 
   const [fichas, historico] = await Promise.all([
@@ -28,17 +30,15 @@ export async function renderHome() {
   const hojeKey = dateKey(new Date());
 
   const tiraSemana = semana
-    .map((d, i) => {
+    .map((d) => {
       const key = dateKey(d);
       const treinou = treinados.has(key);
       const ehHoje = key === hojeKey;
       return `
-        <div class="flex flex-col items-center gap-1.5">
-          <span class="text-[11px] font-bold text-muted">${DIAS_SEMANA_CURTO[d.getDay()]}</span>
-          <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold
-            ${treinou ? "bg-emerald text-paper" : "bg-card border border-hairline text-muted"}
-            ${ehHoje && !treinou ? "border-clay text-clay" : ""}">
-            ${treinou ? '<i data-lucide="check" class="w-4 h-4"></i>' : d.getDate()}
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-[11px] font-bold ${ehHoje ? "text-clay" : "text-muted"}">${DIAS_SEMANA_CURTO[d.getDay()]}</span>
+          <div class="day-pill ${treinou ? "day-pill--treinado" : ehHoje ? "day-pill--hoje" : ""}">
+            <span class="day-pill__dot">${treinou ? '<i data-lucide="check" class="w-4 h-4"></i>' : ""}</span>
           </div>
         </div>`;
     })
@@ -65,17 +65,19 @@ export async function renderHome() {
        </div>`;
 
   el.innerHTML = `
-    <div class="bg-card border border-hairline rounded-2xl p-5 mb-6 flex items-center justify-between">
-      <div>
-        <p class="text-muted text-xs font-bold uppercase tracking-wide">Sequência</p>
-        <p class="font-display text-3xl mt-1">${streak} <span class="text-base font-body font-bold text-muted">dia${streak === 1 ? "" : "s"}</span></p>
+    <div class="bg-card border border-hairline rounded-2xl p-5 mb-7">
+      <p class="text-muted text-xs font-bold uppercase tracking-[0.15em] mb-4">Sequência de treinos</p>
+      <div class="flex items-center gap-4">
+        <i data-lucide="flame" class="w-11 h-11 text-clay shrink-0"></i>
+        <p class="font-display text-5xl leading-none">${streak}</p>
+        <p class="text-sm font-extrabold uppercase leading-tight text-ink">Dias<br />seguidos<br />treinando</p>
       </div>
-      <div class="text-3xl">${streak > 0 ? "🔥" : "💤"}</div>
     </div>
 
-    <div class="flex justify-between mb-7 px-1">${tiraSemana}</div>
+    <p class="text-muted text-xs font-bold uppercase tracking-[0.15em] text-center mb-4">Últimos 7 dias</p>
+    <div class="flex justify-between mb-8 px-1">${tiraSemana}</div>
 
-    <h2 class="font-display uppercase text-lg tracking-tight mb-3">Treinar agora</h2>
+    <h2 class="font-display uppercase text-2xl tracking-tight mb-3">Treinar agora</h2>
     <div class="flex flex-col gap-3 mb-6">${listaFichas}</div>
   `;
 
