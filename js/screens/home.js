@@ -38,7 +38,7 @@ export async function renderHome() {
         <div class="flex flex-col items-center gap-2">
           <span class="text-[11px] font-bold ${ehHoje ? "text-clay" : "text-muted"}">${DIAS_SEMANA_CURTO[d.getDay()]}</span>
           <div class="day-pill ${treinou ? "day-pill--treinado" : ehHoje ? "day-pill--hoje" : ""}">
-            <span class="day-pill__dot">${treinou ? '<i data-lucide="check" class="w-4 h-4"></i>' : ""}</span>
+            <span class="day-pill__dot">${treinou ? '<i data-lucide="check" class="w-3 h-3"></i>' : ""}</span>
           </div>
         </div>`;
     })
