@@ -9,6 +9,15 @@ export const state = {
   execucao: null, // { ficha, exercicios: [...], indice, concluidos: [] }
 };
 
+// Cache em memória por perfil, para evitar recarregar do Firestore a cada navegação.
+// { [perfilId]: { fichas: [...] | null, historico: [...] | null } }
+const cache = {};
+
+export function getPerfilCache(perfilId) {
+  if (!cache[perfilId]) cache[perfilId] = { fichas: null, historico: null };
+  return cache[perfilId];
+}
+
 export function setPerfil(id) {
   state.perfilId = id;
   localStorage.setItem(STORAGE_KEY, id);
