@@ -64,8 +64,8 @@ function desenharHome(fichas, historico) {
           return `
         <button data-id="${f.id}" class="ficha-iniciar w-full border rounded-2xl p-4 flex items-center justify-between text-left active:scale-[0.98] transition-transform
           ${concluida ? "bg-claySoft/20 border-emerald/40" : "bg-card border-hairline"}">
-          <div>
-            <p class="font-bold text-ink">${f.nome}</p>
+          <div class="flex-1 min-w-0 text-center">
+            <p class="font-bold text-ink truncate">${f.nome}</p>
             <p class="text-xs mt-0.5 ${concluida ? "text-emerald font-bold" : "text-muted"}">
               ${concluida ? "Concluído hoje" : `${f.exercicios.length} exercício${f.exercicios.length === 1 ? "" : "s"}${f.dia ? " · " + f.dia : ""}`}
             </p>
@@ -83,8 +83,8 @@ function desenharHome(fichas, historico) {
 
   el.innerHTML = `
     <div class="bg-card border border-hairline rounded-2xl p-5 mb-7">
-      <p class="text-muted text-xs font-bold uppercase tracking-[0.15em] mb-4">Sequência de treinos</p>
-      <div class="flex items-center gap-4">
+      <p class="text-muted text-xs font-bold uppercase tracking-[0.15em] mb-4 text-center">Sequência de treinos</p>
+      <div class="flex items-center justify-center gap-4">
         <i data-lucide="flame" class="w-11 h-11 text-clay shrink-0"></i>
         <p class="font-display text-5xl leading-none">${streak}</p>
         <p class="text-sm font-extrabold uppercase leading-tight text-ink">Dias<br />seguidos<br />treinando</p>
@@ -94,7 +94,7 @@ function desenharHome(fichas, historico) {
     <p class="text-muted text-xs font-bold uppercase tracking-[0.15em] text-center mb-4">Últimos 7 dias</p>
     <div class="flex justify-between mb-8 px-1">${tiraSemana}</div>
 
-    <h2 class="font-display uppercase text-2xl tracking-tight mb-3">Treinar agora</h2>
+    <h2 class="font-display uppercase text-2xl tracking-tight mb-3 text-center">Treinar agora</h2>
     <div class="flex flex-col gap-3 mb-6">${listaFichas}</div>
   `;
 

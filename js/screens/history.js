@@ -32,25 +32,25 @@ function desenharHistory(historico) {
     .map(
       ([label, registros]) => `
       <div class="mb-6">
-        <h3 class="text-muted text-xs font-bold uppercase tracking-wide mb-2">${label}</h3>
+        <h3 class="text-muted text-xs font-bold uppercase tracking-wide mb-2 text-center">${label}</h3>
         <div class="flex flex-col gap-2">
           ${registros
             .map((r) => {
               const hora = toDate(r.concluidoEm)?.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) || "";
               return `
             <div class="bg-card border border-hairline rounded-2xl overflow-hidden">
-              <button type="button" class="registro-header w-full flex items-center justify-between p-4 text-left" data-registro="${r.id}">
-                <div>
-                  <p class="font-bold text-sm">${r.templateNome}</p>
+              <div role="button" tabindex="0" class="registro-header w-full flex items-center justify-between gap-3 p-4 cursor-pointer" data-registro="${r.id}">
+                <div class="flex-1 min-w-0 text-center">
+                  <p class="font-bold text-sm truncate">${r.templateNome}</p>
                   <p class="text-muted text-xs mt-0.5">${r.exercicios.length} exercícios · ${hora}</p>
                 </div>
-                <div class="flex items-center gap-1">
-                  <button data-id="${r.id}" class="btn-excluir-historico text-muted active:text-clay p-1.5">
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" data-id="${r.id}" class="btn-excluir-historico text-muted active:text-clay p-1.5">
                     <i data-lucide="trash-2" class="w-[18px] h-[18px]"></i>
                   </button>
                   <i data-lucide="chevron-down" class="w-[18px] h-[18px] text-muted group-chevron registro-chevron"></i>
                 </div>
-              </button>
+              </div>
               <div class="group-body" data-registro-body="${r.id}">
                 <div class="flex flex-col gap-2 px-4 pb-4 pt-0">
                   ${r.exercicios
