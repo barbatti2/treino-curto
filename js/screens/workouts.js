@@ -3,7 +3,7 @@ import { state, getPerfilCache } from "../state.js";
 import { icons, showToast } from "../utils.js";
 import { irPara } from "../router.js";
 import { EXERCISES } from "../exercises-data.js";
-import { iconeGrupo, grupoPrincipalFicha } from "../muscle-icons.js";
+import { iconeEquipamento } from "../equipment-icons.js";
 
 export async function renderWorkouts() {
   const perfilId = state.perfilId;
@@ -37,7 +37,9 @@ function desenharWorkouts(fichas) {
                 (f) => `
         <div class="bg-card border border-hairline rounded-2xl overflow-hidden">
           <div role="button" tabindex="0" class="ficha-header w-full p-4 cursor-pointer flex items-center gap-3" data-ficha="${f.id}">
-            <div class="w-12 h-12 text-clay shrink-0">${iconeGrupo(grupoPrincipalFicha(f, EXERCISES))}</div>
+            <div class="w-12 h-12 rounded-xl bg-claySoft/40 text-clay shrink-0 flex items-center justify-center">
+              <i data-lucide="dumbbell" class="w-6 h-6"></i>
+            </div>
             <div class="flex-1 min-w-0">
               <p class="font-bold uppercase truncate">${f.nome}</p>
               <p class="text-muted text-xs mt-0.5">${f.exercicios.length} exercício${f.exercicios.length === 1 ? "" : "s"}${f.dia ? " · " + f.dia : " · sem dia fixo"}</p>
@@ -45,17 +47,22 @@ function desenharWorkouts(fichas) {
             <i data-lucide="chevron-right" class="w-5 h-5 text-muted shrink-0 ficha-chevron"></i>
           </div>
           <div class="group-body" data-ficha-body="${f.id}">
-            <div class="flex flex-col gap-2 px-4 pb-4 pt-0">
-              ${f.exercicios
-                .map(
-                  (ex) => `
-                <div class="flex items-center gap-3 bg-paper border border-hairline rounded-xl py-2.5 px-3">
-                  <span class="flex-1 text-sm font-semibold truncate">${ex.nome}</span>
-                  <span class="text-xs text-clay font-extrabold shrink-0 bg-claySoft/40 rounded-full px-2.5 py-1">${ex.series}<span class="text-muted font-bold">x</span>${ex.reps}</span>
-                </div>`
-                )
-                .join("")}
-              <button type="button" data-id="${f.id}" class="btn-excluir-ficha mt-1 flex items-center justify-center gap-2 text-clay text-sm font-bold py-2.5">
+            <div class="flex flex-col gap-4 px-4 pb-4 pt-0">
+              <div class="ex-trilha overflow-x-auto no-scrollbar -mx-1 px-1">
+                ${f.exercicios
+                  .map((ex, i) => {
+                    const equipamento = EXERCISES[ex.exercicioId]?.equipamento;
+                    return `
+                ${i > 0 ? `<div class="ex-trilha__conector"></div>` : ""}
+                <div class="ex-trilha__item">
+                  <div class="ex-trilha__icone">${iconeEquipamento(equipamento)}</div>
+                  <span class="ex-trilha__series">${ex.series}x${ex.reps}</span>
+                  <span class="ex-trilha__nome">${ex.nome}</span>
+                </div>`;
+                  })
+                  .join("")}
+              </div>
+              <button type="button" data-id="${f.id}" class="btn-excluir-ficha flex items-center justify-center gap-2 text-clay text-sm font-bold py-2.5">
                 <i data-lucide="trash-2" class="w-[16px] h-[16px]"></i> Excluir treino
               </button>
             </div>

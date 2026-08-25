@@ -62,8 +62,7 @@ function desenharHome(fichas, historico) {
         .map((f) => {
           const concluida = fichasConcluidasHoje.has(f.id);
           return `
-        <button data-id="${f.id}" class="ficha-iniciar w-full border rounded-2xl p-4 flex items-center justify-between text-left active:scale-[0.98] transition-transform
-          ${concluida ? "bg-claySoft/20 border-emerald/40" : "bg-card border-hairline"}">
+        <button data-id="${f.id}" class="ficha-iniciar w-full border rounded-2xl p-4 flex items-center justify-between text-left active:scale-[0.98] transition-transform bg-card border-hairline">
           <div>
             <p class="font-bold text-ink">${f.nome}</p>
             <p class="text-xs mt-0.5 ${concluida ? "text-emerald font-bold" : "text-muted"}">
