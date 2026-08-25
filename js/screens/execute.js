@@ -46,7 +46,9 @@ export function renderExecute() {
         </div>
       </div>
 
-      <div class="flex gap-1.5 mb-8">${segmentos}</div>
+      <div class="flex gap-1.5 mb-6">${segmentos}</div>
+
+      <img src="${exercicio.imagem}" class="w-full max-w-[220px] aspect-square object-cover rounded-3xl border border-hairline mx-auto mb-6" />
 
       <div class="text-center mb-7">
         <h2 class="font-display uppercase text-3xl tracking-tight leading-tight px-2">
