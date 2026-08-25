@@ -8,6 +8,16 @@ export function showToast(msg, type = "default") {
   }, 2200);
 }
 
+// Divide o nome do exercício em duas partes para destaque visual (ex.: "Supino Reto" + "Com Barra")
+export function dividirNomeExercicio(nome) {
+  const match = nome.match(/^(.*?)\s+(com\s+.*)$/i);
+  if (match) return { branco: match[1], clay: match[2] };
+
+  const partes = nome.split(" ");
+  if (partes.length <= 2) return { branco: nome, clay: "" };
+  return { branco: partes.slice(0, -1).join(" "), clay: partes.slice(-1).join(" ") };
+}
+
 export function icons() {
   if (window.lucide) window.lucide.createIcons();
 }
