@@ -55,7 +55,10 @@ function desenharWorkouts(fichas) {
                 <div class="flex items-center gap-3 bg-paper border border-hairline rounded-xl py-2.5 px-3">
                   <div class="w-10 h-10 rounded-full bg-card border border-hairline text-muted shrink-0 flex items-center justify-center">${iconeEquipamento(equipamento)}</div>
                   <span class="flex-1 text-sm font-semibold truncate">${ex.nome}</span>
-                  <span class="text-xs text-clay font-extrabold shrink-0 bg-claySoft/40 rounded-full px-2.5 py-1">${ex.series}<span class="text-muted font-bold">x</span>${ex.reps}</span>
+                  <div class="shrink-0 flex flex-col items-center justify-center bg-paper border border-hairline rounded-lg px-2.5 py-1 min-w-[3.5rem]">
+                    <span class="text-sm font-extrabold text-clay leading-none">${ex.series}<span class="text-muted font-bold">×</span>${ex.reps}</span>
+                    <span class="text-[9px] text-muted font-bold uppercase tracking-wide mt-0.5">séries×reps</span>
+                  </div>
                 </div>`;
                 })
                 .join("")}
