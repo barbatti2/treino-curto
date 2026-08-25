@@ -2,7 +2,7 @@
 // usados na trilha de exercícios dentro de cada ficha em "Treinos".
 
 const wrap = (inner) =>
-  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">${inner}</svg>`;
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">${inner}</svg>`;
 
 const ICONS = {
   Barra: wrap(`
