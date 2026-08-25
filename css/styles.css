@@ -182,13 +182,11 @@ html, body {
 
 /* ---------- Dia da semana (quadrados) ---------- */
 .dia-square {
-  width: 2.6rem;
-  height: 2.6rem;
   border-radius: 0.7rem;
   border: 1px solid #2B2B2F;
   color: #8D8D92;
   font-weight: 800;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   display: flex;
   align-items: center;
   justify-content: center;
