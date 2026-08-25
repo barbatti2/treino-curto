@@ -1,6 +1,6 @@
 import { GROUPS, EXERCISES } from "../exercises-data.js";
 import { criarFicha } from "../firebase.js";
-import { state } from "../state.js";
+import { state, getPerfilCache } from "../state.js";
 import { icons, showToast, DIAS_SEMANA } from "../utils.js";
 import { irPara } from "../router.js";
 import { renderWorkouts } from "./workouts.js";
@@ -173,7 +173,11 @@ export function renderCreateWorkout() {
     btn.disabled = true;
     btn.textContent = "Salvando…";
 
-    await criarFicha(state.perfilId, { nome, dia: diaEscolhido, exercicios });
+    const ref = await criarFicha(state.perfilId, { nome, dia: diaEscolhido, exercicios });
+    const c = getPerfilCache(state.perfilId);
+    const novaFicha = { id: ref.id, nome, dia: diaEscolhido, exercicios, criadoEm: new Date() };
+    c.fichas = c.fichas ? [novaFicha, ...c.fichas] : [novaFicha];
+
     showToast("Ficha criada", "success");
     irPara("workouts");
     renderWorkouts();

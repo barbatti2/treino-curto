@@ -1,14 +1,26 @@
 import { listarFichas, excluirFicha } from "../firebase.js";
-import { state } from "../state.js";
+import { state, getPerfilCache } from "../state.js";
 import { icons, showToast } from "../utils.js";
 import { irPara } from "../router.js";
 
 export async function renderWorkouts() {
-  const el = document.getElementById("screen-workouts");
-  el.innerHTML = `<p class="text-muted text-sm py-10 text-center">Carregando…</p>`;
+  const perfilId = state.perfilId;
+  const c = getPerfilCache(perfilId);
 
-  const fichas = await listarFichas(state.perfilId);
-  state.fichas = fichas;
+  if (c.fichas) {
+    desenharWorkouts(c.fichas);
+  } else {
+    document.getElementById("screen-workouts").innerHTML = `<p class="text-muted text-sm py-10 text-center">Carregando…</p>`;
+  }
+
+  const fichas = await listarFichas(perfilId);
+  if (state.perfilId !== perfilId) return;
+  c.fichas = fichas;
+  desenharWorkouts(fichas);
+}
+
+function desenharWorkouts(fichas) {
+  const el = document.getElementById("screen-workouts");
 
   el.innerHTML = `
     <button id="btn-nova-ficha" class="w-full bg-clay text-ink font-bold rounded-2xl py-4 mb-6 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
@@ -52,9 +64,11 @@ export async function renderWorkouts() {
   el.querySelectorAll(".btn-excluir-ficha").forEach((btn) => {
     btn.addEventListener("click", async () => {
       if (!confirm("Excluir esta ficha? Essa ação não pode ser desfeita.")) return;
+      const c = getPerfilCache(state.perfilId);
       await excluirFicha(state.perfilId, btn.dataset.id);
+      if (c.fichas) c.fichas = c.fichas.filter((f) => f.id !== btn.dataset.id);
       showToast("Ficha excluída");
-      renderWorkouts();
+      desenharWorkouts(c.fichas || []);
     });
   });
 }

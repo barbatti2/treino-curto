@@ -1,11 +1,12 @@
 import { listarFichas, listarHistorico } from "../firebase.js";
-import { state } from "../state.js";
+import { state, getPerfilCache } from "../state.js";
 import {
   icons,
   semanaAtual,
   diasTreinadosSet,
   calcularStreak,
   dateKey,
+  toDate,
   DIAS_SEMANA_CURTO,
   subtituloDataHoje,
 } from "../utils.js";
@@ -13,21 +14,33 @@ import { iniciarExecucao } from "./execute.js";
 import { irPara, definirTitulo } from "../router.js";
 
 export async function renderHome() {
-  const el = document.getElementById("screen-home");
   definirTitulo("Hoje", subtituloDataHoje());
-  el.innerHTML = `<p class="text-muted text-sm py-10 text-center">Carregando…</p>`;
+  const perfilId = state.perfilId;
+  const c = getPerfilCache(perfilId);
 
-  const [fichas, historico] = await Promise.all([
-    listarFichas(state.perfilId),
-    listarHistorico(state.perfilId),
-  ]);
-  state.fichas = fichas;
-  state.historico = historico;
+  if (c.fichas && c.historico) {
+    desenharHome(c.fichas, c.historico);
+  } else {
+    document.getElementById("screen-home").innerHTML = `<p class="text-muted text-sm py-10 text-center">Carregando…</p>`;
+  }
+
+  const [fichas, historico] = await Promise.all([listarFichas(perfilId), listarHistorico(perfilId)]);
+  if (state.perfilId !== perfilId) return; // perfil trocou enquanto carregava
+  c.fichas = fichas;
+  c.historico = historico;
+  desenharHome(fichas, historico);
+}
+
+function desenharHome(fichas, historico) {
+  const el = document.getElementById("screen-home");
 
   const streak = calcularStreak(historico);
   const treinados = diasTreinadosSet(historico);
   const semana = semanaAtual();
   const hojeKey = dateKey(new Date());
+  const fichasConcluidasHoje = new Set(
+    historico.filter((h) => dateKey(toDate(h.concluidoEm)) === hojeKey).map((h) => h.templateId)
+  );
 
   const tiraSemana = semana
     .map((d) => {
@@ -46,18 +59,22 @@ export async function renderHome() {
 
   const listaFichas = fichas.length
     ? fichas
-        .map(
-          (f) => `
-        <button data-id="${f.id}" class="ficha-iniciar w-full bg-card border border-hairline rounded-2xl p-4 flex items-center justify-between text-left active:scale-[0.98] transition-transform">
+        .map((f) => {
+          const concluida = fichasConcluidasHoje.has(f.id);
+          return `
+        <button data-id="${f.id}" class="ficha-iniciar w-full border rounded-2xl p-4 flex items-center justify-between text-left active:scale-[0.98] transition-transform
+          ${concluida ? "bg-claySoft/20 border-emerald/40" : "bg-card border-hairline"}">
           <div>
             <p class="font-bold text-ink">${f.nome}</p>
-            <p class="text-muted text-xs mt-0.5">${f.exercicios.length} exercício${f.exercicios.length === 1 ? "" : "s"}${f.dia ? " · " + f.dia : ""}</p>
+            <p class="text-xs mt-0.5 ${concluida ? "text-emerald font-bold" : "text-muted"}">
+              ${concluida ? "Concluído hoje" : `${f.exercicios.length} exercício${f.exercicios.length === 1 ? "" : "s"}${f.dia ? " · " + f.dia : ""}`}
+            </p>
           </div>
-          <div class="w-10 h-10 rounded-full bg-clay flex items-center justify-center shrink-0">
-            <i data-lucide="play" class="w-4 h-4 text-ink"></i>
+          <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${concluida ? "bg-emerald" : "bg-clay"}">
+            <i data-lucide="${concluida ? "check" : "play"}" class="w-4 h-4 text-ink"></i>
           </div>
-        </button>`
-        )
+        </button>`;
+        })
         .join("")
     : `<div class="text-center py-10">
          <p class="text-muted text-sm mb-4">Você ainda não tem fichas de treino.</p>
@@ -86,6 +103,9 @@ export async function renderHome() {
   el.querySelectorAll(".ficha-iniciar").forEach((btn) => {
     btn.addEventListener("click", () => {
       const ficha = fichas.find((f) => f.id === btn.dataset.id);
+      if (fichasConcluidasHoje.has(ficha.id)) {
+        if (!confirm(`Você já concluiu "${ficha.nome}" hoje. Quer treinar novamente?`)) return;
+      }
       iniciarExecucao(ficha);
     });
   });

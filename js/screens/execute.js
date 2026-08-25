@@ -1,5 +1,5 @@
 import { registrarTreinoConcluido } from "../firebase.js";
-import { state } from "../state.js";
+import { state, getPerfilCache } from "../state.js";
 import { icons, showToast } from "../utils.js";
 import { irPara, atualizarNavVisibilidade } from "../router.js";
 import { renderHome } from "./home.js";
@@ -91,11 +91,16 @@ async function finalizarTreino() {
   const el = document.getElementById("screen-execute");
   el.innerHTML = `<p class="text-muted text-sm text-center py-10">Salvando…</p>`;
 
-  await registrarTreinoConcluido(state.perfilId, {
+  const registro = {
     templateId: exec.ficha.id,
     templateNome: exec.ficha.nome,
     exercicios: exec.ficha.exercicios,
-  });
+  };
+  const ref = await registrarTreinoConcluido(state.perfilId, registro);
+
+  const c = getPerfilCache(state.perfilId);
+  const novoRegistro = { id: ref.id, ...registro, concluidoEm: new Date() };
+  c.historico = c.historico ? [novoRegistro, ...c.historico] : [novoRegistro];
 
   state.execucao = null;
   atualizarNavVisibilidade(true);
