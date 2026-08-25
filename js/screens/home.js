@@ -77,8 +77,8 @@ function desenharHome(fichas, historico) {
         })
         .join("")
     : `<div class="text-center py-10">
-         <p class="text-muted text-sm mb-4">Você ainda não tem fichas de treino.</p>
-         <button id="ir-criar" class="bg-clay text-ink font-bold rounded-full px-6 py-3 active:scale-95 transition-transform">Criar ficha</button>
+         <p class="text-muted text-sm mb-4">Você ainda não tem treinos criados.</p>
+         <button id="ir-criar" class="bg-clay text-ink font-bold rounded-full px-6 py-3 active:scale-95 transition-transform">Criar treino</button>
        </div>`;
 
   el.innerHTML = `

@@ -24,8 +24,8 @@ function desenharWorkouts(fichas) {
 
   el.innerHTML = `
     <div class="flex justify-center mb-6">
-      <button id="btn-nova-ficha" class="bg-clay text-ink font-bold text-sm rounded-full px-5 py-2.5 flex items-center gap-1.5 active:scale-95 transition-transform">
-        <i data-lucide="plus" class="w-4 h-4"></i> Nova ficha
+      <button id="btn-nova-ficha" aria-label="Novo treino" class="bg-clay text-ink w-14 h-14 rounded-full flex items-center justify-center active:scale-95 transition-transform">
+        <i data-lucide="plus" class="w-6 h-6"></i>
       </button>
     </div>
     <div class="flex flex-col gap-3" id="lista-fichas">
@@ -52,14 +52,14 @@ function desenharWorkouts(fichas) {
                 )
                 .join("")}
               <button type="button" data-id="${f.id}" class="btn-excluir-ficha mt-1 flex items-center justify-center gap-2 text-clay text-sm font-bold py-2.5">
-                <i data-lucide="trash-2" class="w-[16px] h-[16px]"></i> Excluir ficha
+                <i data-lucide="trash-2" class="w-[16px] h-[16px]"></i> Excluir treino
               </button>
             </div>
           </div>
         </div>`
               )
               .join("")
-          : `<p class="text-muted text-sm text-center py-10">Nenhuma ficha criada ainda.</p>`
+          : `<p class="text-muted text-sm text-center py-10">Nenhum treino criado ainda.</p>`
       }
     </div>
   `;
@@ -78,11 +78,11 @@ function desenharWorkouts(fichas) {
   el.querySelectorAll(".btn-excluir-ficha").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       e.stopPropagation();
-      if (!confirm("Excluir esta ficha? Essa ação não pode ser desfeita.")) return;
+      if (!confirm("Excluir este treino? Essa ação não pode ser desfeita.")) return;
       const c = getPerfilCache(state.perfilId);
       await excluirFicha(state.perfilId, btn.dataset.id);
       if (c.fichas) c.fichas = c.fichas.filter((f) => f.id !== btn.dataset.id);
-      showToast("Ficha excluída");
+      showToast("Treino excluído");
       desenharWorkouts(c.fichas || []);
     });
   });
