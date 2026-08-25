@@ -1,6 +1,7 @@
 html, body {
   height: 100%;
   touch-action: manipulation;
+  overscroll-behavior: none;
 }
 * {
   -webkit-tap-highlight-color: transparent;
@@ -12,6 +13,7 @@ html, body {
   width: 100%;
   max-width: 375px;
   height: 100vh;
+  height: 100dvh;
   margin: 0 auto;
   background: #0A0A0B;
   overflow: hidden;
@@ -19,8 +21,8 @@ html, body {
 
 @media (min-width: 640px) {
   .phone {
-    height: min(100vh, 812px);
-    margin-top: max(1.5rem, calc((100vh - 812px) / 2));
+    height: min(100dvh, 812px);
+    margin-top: max(1.5rem, calc((100dvh - 812px) / 2));
     border-radius: 2.5rem;
     border: 8px solid #1B1B1E;
     box-shadow: 0 30px 80px -20px rgba(0,0,0,0.7);
