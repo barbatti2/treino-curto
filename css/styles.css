@@ -1,6 +1,7 @@
 html, body {
   height: 100%;
   touch-action: manipulation;
+  overflow: hidden;
 }
 * {
   -webkit-tap-highlight-color: transparent;
