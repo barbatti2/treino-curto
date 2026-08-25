@@ -67,27 +67,26 @@ export function renderCreateWorkout() {
   el.innerHTML = `
     <div class="flex items-center gap-3 mb-6">
       <button id="btn-voltar" class="text-muted p-1"><i data-lucide="chevron-left" class="w-7 h-7"></i></button>
-      <h2 class="font-display uppercase text-4xl tracking-tight leading-none flex-1 text-center">Nova ficha</h2>
-      <span class="w-7"></span>
+      <h2 class="font-display uppercase text-4xl tracking-tight leading-none">Nova ficha</h2>
     </div>
 
     <label class="block mb-5">
-      <span class="text-xs text-muted font-bold uppercase tracking-wide block text-center">Nome da ficha</span>
+      <span class="text-xs text-muted font-bold uppercase tracking-wide">Nome da ficha</span>
       <input id="in-nome" type="text" placeholder="Ex: Treino A — Peito e Tríceps"
         class="w-full bg-card border border-hairline rounded-2xl px-4 py-3.5 mt-2 outline-none focus:border-clay" />
     </label>
 
     <div class="mb-6">
-      <span class="text-xs text-muted font-bold uppercase tracking-wide block text-center">Dia da semana (opcional)</span>
-      <div class="flex flex-wrap items-center justify-center gap-2 mt-2" id="dias-chips">
+      <span class="text-xs text-muted font-bold uppercase tracking-wide">Dia da semana (opcional)</span>
+      <div class="flex flex-wrap items-center gap-2 mt-2" id="dias-chips">
         <button type="button" data-dia="" class="chip dia-chip selected">Sem dia fixo</button>
         ${DIAS_OPCOES.map((d) => `<button type="button" data-dia="${d.nome}" title="${d.nome}" class="dia-square dia-chip">${d.letra}</button>`).join("")}
       </div>
     </div>
 
     <div class="mb-4">
-      <span class="text-xs text-muted font-bold uppercase tracking-wide block text-center">Exercícios</span>
-      <p class="text-muted text-xs mt-1 mb-4 text-center" id="contador-selecionados">Nenhum exercício selecionado</p>
+      <span class="text-xs text-muted font-bold uppercase tracking-wide">Exercícios</span>
+      <p class="text-muted text-xs mt-1 mb-4" id="contador-selecionados">Nenhum exercício selecionado</p>
       ${gruposHtml}
     </div>
 

@@ -35,17 +35,9 @@ function desenharWorkouts(fichas) {
               .map(
                 (f) => `
         <div class="bg-card border border-hairline rounded-2xl overflow-hidden">
-          <div role="button" tabindex="0" class="ficha-header w-full flex items-center justify-between gap-3 p-4 cursor-pointer" data-ficha="${f.id}">
-            <div class="flex-1 min-w-0 text-center">
-              <p class="font-bold truncate">${f.nome}</p>
-              <p class="text-muted text-xs mt-0.5">${f.exercicios.length} exercício${f.exercicios.length === 1 ? "" : "s"}${f.dia ? " · " + f.dia : " · sem dia fixo"}</p>
-            </div>
-            <div class="flex items-center gap-1 shrink-0">
-              <button type="button" data-id="${f.id}" class="btn-excluir-ficha text-muted active:text-clay p-1.5">
-                <i data-lucide="trash-2" class="w-[18px] h-[18px]"></i>
-              </button>
-              <i data-lucide="chevron-down" class="w-[18px] h-[18px] text-muted group-chevron ficha-chevron"></i>
-            </div>
+          <div role="button" tabindex="0" class="ficha-header w-full p-4 cursor-pointer" data-ficha="${f.id}">
+            <p class="font-bold">${f.nome}</p>
+            <p class="text-muted text-xs mt-0.5">${f.exercicios.length} exercício${f.exercicios.length === 1 ? "" : "s"}${f.dia ? " · " + f.dia : " · sem dia fixo"}</p>
           </div>
           <div class="group-body" data-ficha-body="${f.id}">
             <div class="flex flex-col gap-2 px-4 pb-4 pt-0">
@@ -59,6 +51,9 @@ function desenharWorkouts(fichas) {
                 </div>`
                 )
                 .join("")}
+              <button type="button" data-id="${f.id}" class="btn-excluir-ficha mt-1 flex items-center justify-center gap-2 text-clay text-sm font-bold py-2.5">
+                <i data-lucide="trash-2" class="w-[16px] h-[16px]"></i> Excluir ficha
+              </button>
             </div>
           </div>
         </div>`
@@ -75,12 +70,8 @@ function desenharWorkouts(fichas) {
 
   el.querySelectorAll(".ficha-header").forEach((header) => {
     const body = el.querySelector(`[data-ficha-body="${header.dataset.ficha}"]`);
-    const chevron = header.querySelector(".ficha-chevron");
-    header.addEventListener("click", (e) => {
-      if (e.target.closest(".btn-excluir-ficha")) return;
-      const abrir = !body.classList.contains("open");
-      body.classList.toggle("open", abrir);
-      chevron.classList.toggle("rotate-180", abrir);
+    header.addEventListener("click", () => {
+      body.classList.toggle("open");
     });
   });
 

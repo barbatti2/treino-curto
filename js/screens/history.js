@@ -32,24 +32,16 @@ function desenharHistory(historico) {
     .map(
       ([label, registros]) => `
       <div class="mb-6">
-        <h3 class="text-muted text-xs font-bold uppercase tracking-wide mb-2 text-center">${label}</h3>
+        <h3 class="text-muted text-xs font-bold uppercase tracking-wide mb-2">${label}</h3>
         <div class="flex flex-col gap-2">
           ${registros
             .map((r) => {
               const hora = toDate(r.concluidoEm)?.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) || "";
               return `
             <div class="bg-card border border-hairline rounded-2xl overflow-hidden">
-              <div role="button" tabindex="0" class="registro-header w-full flex items-center justify-between gap-3 p-4 cursor-pointer" data-registro="${r.id}">
-                <div class="flex-1 min-w-0 text-center">
-                  <p class="font-bold text-sm truncate">${r.templateNome}</p>
-                  <p class="text-muted text-xs mt-0.5">${r.exercicios.length} exercícios · ${hora}</p>
-                </div>
-                <div class="flex items-center gap-1 shrink-0">
-                  <button type="button" data-id="${r.id}" class="btn-excluir-historico text-muted active:text-clay p-1.5">
-                    <i data-lucide="trash-2" class="w-[18px] h-[18px]"></i>
-                  </button>
-                  <i data-lucide="chevron-down" class="w-[18px] h-[18px] text-muted group-chevron registro-chevron"></i>
-                </div>
+              <div role="button" tabindex="0" class="registro-header w-full p-4 cursor-pointer" data-registro="${r.id}">
+                <p class="font-bold text-sm">${r.templateNome}</p>
+                <p class="text-muted text-xs mt-0.5">${r.exercicios.length} exercícios · ${hora}</p>
               </div>
               <div class="group-body" data-registro-body="${r.id}">
                 <div class="flex flex-col gap-2 px-4 pb-4 pt-0">
@@ -63,6 +55,9 @@ function desenharHistory(historico) {
                     </div>`
                     )
                     .join("")}
+                  <button type="button" data-id="${r.id}" class="btn-excluir-historico mt-1 flex items-center justify-center gap-2 text-clay text-sm font-bold py-2.5">
+                    <i data-lucide="trash-2" class="w-[16px] h-[16px]"></i> Excluir registro
+                  </button>
                 </div>
               </div>
             </div>`;
@@ -77,12 +72,8 @@ function desenharHistory(historico) {
 
   el.querySelectorAll(".registro-header").forEach((header) => {
     const body = el.querySelector(`[data-registro-body="${header.dataset.registro}"]`);
-    const chevron = header.querySelector(".registro-chevron");
-    header.addEventListener("click", (e) => {
-      if (e.target.closest(".btn-excluir-historico")) return;
-      const abrir = !body.classList.contains("open");
-      body.classList.toggle("open", abrir);
-      chevron.classList.toggle("rotate-180", abrir);
+    header.addEventListener("click", () => {
+      body.classList.toggle("open");
     });
   });
 
