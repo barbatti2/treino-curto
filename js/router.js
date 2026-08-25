@@ -6,7 +6,7 @@ import { icons } from "./utils.js";
 const TITULOS = {
   home: "Início",
   workouts: "Treinos",
-  create: "Nova ficha",
+  create: "Novo treino",
   execute: "Treino",
   history: "Histórico",
 };
