@@ -180,6 +180,18 @@ html, body {
   max-height: 3000px;
 }
 
+.text-balance {
+  text-wrap: balance;
+}
+
+/* ---------- Card de treino salvo ---------- */
+.ficha-chevron {
+  transition: transform 0.2s ease;
+}
+.ficha-header.open .ficha-chevron {
+  transform: rotate(90deg);
+}
+
 /* ---------- Dia da semana (quadrados) ---------- */
 .dia-square {
   border-radius: 0.7rem;
