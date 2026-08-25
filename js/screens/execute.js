@@ -6,6 +6,14 @@ import { icons, showToast, dividirNomeExercicio } from "../utils.js";
 import { irPara, atualizarNavVisibilidade } from "../router.js";
 import { renderHome } from "./home.js";
 
+// Reduz o tamanho do título conforme o nome do exercício cresce, evitando quebras de linha desequilibradas.
+function tamanhoTitulo(nome) {
+  const n = nome.length;
+  if (n > 30) return "text-xl";
+  if (n > 22) return "text-2xl";
+  return "text-3xl";
+}
+
 export function iniciarExecucao(ficha) {
   state.execucao = {
     ficha,
@@ -51,7 +59,7 @@ export function renderExecute() {
       <img src="${exercicio.imagem}" class="w-full max-w-[220px] aspect-square object-cover rounded-3xl border border-hairline mx-auto mb-6" />
 
       <div class="text-center mb-7">
-        <h2 class="font-display uppercase text-3xl tracking-tight leading-tight px-2">
+        <h2 class="font-display uppercase ${tamanhoTitulo(exercicio.nome)} tracking-tight leading-tight px-2 text-balance">
           <span class="text-ink">${nome.branco}</span>${nome.clay ? ` <span class="text-clay">${nome.clay}</span>` : ""}
         </h2>
         <div class="w-10 h-1 bg-clay rounded-full mx-auto mt-3"></div>

@@ -2,6 +2,8 @@ import { listarFichas, excluirFicha } from "../firebase.js";
 import { state, getPerfilCache } from "../state.js";
 import { icons, showToast } from "../utils.js";
 import { irPara } from "../router.js";
+import { EXERCISES } from "../exercises-data.js";
+import { iconeGrupo, grupoPrincipalFicha } from "../muscle-icons.js";
 
 export async function renderWorkouts() {
   const perfilId = state.perfilId;
@@ -23,11 +25,10 @@ function desenharWorkouts(fichas) {
   const el = document.getElementById("screen-workouts");
 
   el.innerHTML = `
-    <div class="flex justify-center mb-6">
-      <button id="btn-nova-ficha" aria-label="Novo treino" class="bg-clay text-ink w-14 h-14 rounded-full flex items-center justify-center active:scale-95 transition-transform">
-        <i data-lucide="plus" class="w-6 h-6"></i>
-      </button>
-    </div>
+    <button id="btn-nova-ficha" aria-label="Novo treino" class="w-full bg-clay text-ink font-extrabold uppercase tracking-wide rounded-2xl py-4 mb-6 flex items-center justify-center gap-2.5 active:scale-95 transition-transform">
+      <i data-lucide="plus" class="w-5 h-5"></i>
+      Novo treino
+    </button>
     <div class="flex flex-col gap-3" id="lista-fichas">
       ${
         fichas.length
@@ -35,9 +36,13 @@ function desenharWorkouts(fichas) {
               .map(
                 (f) => `
         <div class="bg-card border border-hairline rounded-2xl overflow-hidden">
-          <div role="button" tabindex="0" class="ficha-header w-full p-4 cursor-pointer" data-ficha="${f.id}">
-            <p class="font-bold">${f.nome}</p>
-            <p class="text-muted text-xs mt-0.5">${f.exercicios.length} exercício${f.exercicios.length === 1 ? "" : "s"}${f.dia ? " · " + f.dia : " · sem dia fixo"}</p>
+          <div role="button" tabindex="0" class="ficha-header w-full p-4 cursor-pointer flex items-center gap-3" data-ficha="${f.id}">
+            <div class="w-12 h-12 text-clay shrink-0">${iconeGrupo(grupoPrincipalFicha(f, EXERCISES))}</div>
+            <div class="flex-1 min-w-0">
+              <p class="font-bold uppercase truncate">${f.nome}</p>
+              <p class="text-muted text-xs mt-0.5">${f.exercicios.length} exercício${f.exercicios.length === 1 ? "" : "s"}${f.dia ? " · " + f.dia : " · sem dia fixo"}</p>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-muted shrink-0 ficha-chevron"></i>
           </div>
           <div class="group-body" data-ficha-body="${f.id}">
             <div class="flex flex-col gap-2 px-4 pb-4 pt-0">
@@ -72,6 +77,7 @@ function desenharWorkouts(fichas) {
     const body = el.querySelector(`[data-ficha-body="${header.dataset.ficha}"]`);
     header.addEventListener("click", () => {
       body.classList.toggle("open");
+      header.classList.toggle("open");
     });
   });
 
