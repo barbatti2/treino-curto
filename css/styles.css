@@ -118,6 +118,83 @@ html, body {
   width: 0px;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ---------- Trilha de exercícios (ficha expandida) ---------- */
+.ex-trilha {
+  display: flex;
+  align-items: flex-start;
+}
+.ex-trilha__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 6.75rem;
+}
+.ex-trilha__icone {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 999px;
+  background: #232327;
+  border: 1px solid #2B2B2F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8D8D92;
+}
+.ex-trilha__series {
+  margin-top: -0.65rem;
+  z-index: 1;
+  background: #6B3527;
+  color: #E8734F;
+  font-weight: 800;
+  font-size: 0.7rem;
+  border-radius: 999px;
+  padding: 0.3rem 0.6rem;
+  white-space: nowrap;
+}
+.ex-trilha__nome {
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  text-align: center;
+  line-height: 1.15;
+  color: #EDEDEF;
+}
+.ex-trilha__conector {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 4rem;
+  position: relative;
+}
+.ex-trilha__conector::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #2B2B2F;
+  transform: translateY(-50%);
+}
+.ex-trilha__conector::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: #C9482F;
+  transform: translate(-50%, -50%);
+}
+
 /* ---------- Tira da semana (pills) ---------- */
 .day-pill {
   width: 2rem;
