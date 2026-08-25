@@ -65,7 +65,7 @@ function desenharHome(fichas, historico) {
         <button data-id="${f.id}" class="ficha-iniciar w-full border rounded-2xl p-4 flex items-center justify-between text-left active:scale-[0.98] transition-transform bg-card border-hairline">
           <div>
             <p class="font-bold text-ink">${f.nome}</p>
-            <p class="text-xs mt-0.5 ${concluida ? "text-emerald font-bold" : "text-muted"}">
+            <p class="text-xs mt-0.5 ${concluida ? "text-emerald font-bold uppercase tracking-[0.15em]" : "text-muted"}">
               ${concluida ? "Concluído hoje" : `${f.exercicios.length} exercício${f.exercicios.length === 1 ? "" : "s"}${f.dia ? " · " + f.dia : ""}`}
             </p>
           </div>
