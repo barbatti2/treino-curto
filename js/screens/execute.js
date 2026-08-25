@@ -1,6 +1,8 @@
 import { registrarTreinoConcluido } from "../firebase.js";
+import { EXERCISES } from "../exercises-data.js";
+import { DICAS_POR_GRUPO, DICA_PADRAO } from "../dicas.js";
 import { state, getPerfilCache } from "../state.js";
-import { icons, showToast } from "../utils.js";
+import { icons, showToast, dividirNomeExercicio } from "../utils.js";
 import { irPara, atualizarNavVisibilidade } from "../router.js";
 import { renderHome } from "./home.js";
 
@@ -23,35 +25,62 @@ export function renderExecute() {
   }
 
   const { ficha, indice } = exec;
+  const total = ficha.exercicios.length;
   const exercicio = ficha.exercicios[indice];
-  const ultimo = indice === ficha.exercicios.length - 1;
+  const ultimo = indice === total - 1;
+  const nome = dividirNomeExercicio(exercicio.nome);
+  const grupo = EXERCISES[exercicio.exercicioId]?.grupo;
+  const dica = DICAS_POR_GRUPO[grupo] || DICA_PADRAO;
+
+  const segmentos = Array.from({ length: total }, (_, i) => `
+    <div class="flex-1 h-1.5 rounded-full ${i <= indice ? "bg-clay" : "bg-hairline"}"></div>
+  `).join("");
 
   el.innerHTML = `
     <div class="h-full flex flex-col">
-      <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center justify-between mb-5">
         <button id="btn-sair" class="text-muted p-1"><i data-lucide="x" class="w-6 h-6"></i></button>
         <div class="flex items-center gap-2 bg-card border border-hairline rounded-full pl-3 pr-1 py-1">
           <span class="text-xs font-bold text-muted truncate max-w-[140px]">${ficha.nome}</span>
-          <span class="text-xs font-extrabold bg-clay text-ink rounded-full px-2.5 py-1">${indice + 1}/${ficha.exercicios.length}</span>
+          <span class="text-xs font-extrabold bg-clay text-ink rounded-full px-2.5 py-1">${indice + 1}/${total}</span>
         </div>
       </div>
 
-      <div class="w-full h-1.5 bg-hairline rounded-full overflow-hidden mb-8">
-        <div class="h-full bg-clay transition-all" style="width:${(indice / ficha.exercicios.length) * 100}%"></div>
+      <div class="flex gap-1.5 mb-8">${segmentos}</div>
+
+      <div class="text-center mb-7">
+        <h2 class="font-display uppercase text-3xl tracking-tight leading-tight px-2">
+          <span class="text-ink">${nome.branco}</span>${nome.clay ? ` <span class="text-clay">${nome.clay}</span>` : ""}
+        </h2>
+        <div class="w-10 h-1 bg-clay rounded-full mx-auto mt-3"></div>
       </div>
 
-      <div class="flex-1 flex flex-col items-center justify-center text-center">
-        <img src="${exercicio.imagem}" class="w-full max-w-[260px] aspect-square object-cover rounded-3xl border border-hairline mb-6" />
-        <h2 class="font-display uppercase text-2xl tracking-tight px-4 mb-3">${exercicio.nome}</h2>
-        <div class="flex items-center gap-2">
-          <span class="bg-card border border-hairline rounded-full px-4 py-2 text-sm font-extrabold">${exercicio.series} <span class="text-muted font-bold">séries</span></span>
-          <span class="bg-card border border-hairline rounded-full px-4 py-2 text-sm font-extrabold">${exercicio.reps} <span class="text-muted font-bold">reps</span></span>
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <div class="bg-card border border-hairline rounded-2xl p-4">
+          <i data-lucide="layers" class="w-6 h-6 text-clay mb-2"></i>
+          <p class="text-muted text-xs font-bold uppercase tracking-wide">Séries</p>
+          <p class="font-display text-3xl leading-none mt-1">${exercicio.series}</p>
+        </div>
+        <div class="bg-card border border-hairline rounded-2xl p-4">
+          <i data-lucide="repeat" class="w-6 h-6 text-clay mb-2"></i>
+          <p class="text-muted text-xs font-bold uppercase tracking-wide">Repetições</p>
+          <p class="font-display text-3xl leading-none mt-1">${exercicio.reps}</p>
         </div>
       </div>
+
+      <div class="bg-card border border-hairline rounded-2xl p-4 mb-4">
+        <div class="flex items-center gap-2 mb-2">
+          <i data-lucide="lightbulb" class="w-[18px] h-[18px] text-clay"></i>
+          <p class="text-clay text-xs font-extrabold uppercase tracking-wide">Dica</p>
+        </div>
+        <p class="text-ink text-sm leading-relaxed">${dica}</p>
+      </div>
+
+      <div class="flex-1"></div>
 
       <div class="pb-6">
         <button id="btn-concluir" class="w-full bg-clay text-ink font-bold rounded-full py-4 active:scale-95 transition-transform flex items-center justify-center gap-2">
-          Exercício concluído
+          <i data-lucide="check-circle-2" class="w-5 h-5"></i> Exercício concluído
         </button>
       </div>
     </div>
