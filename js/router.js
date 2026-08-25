@@ -35,6 +35,9 @@ export function irPara(tela) {
 
   atualizarNavVisibilidade(NAV_SCREENS.has(tela));
 
+  const scroll = document.getElementById("main-scroll");
+  if (scroll) scroll.scrollTop = 0;
+
   if (onNavigate) onNavigate(tela);
 }
 
@@ -85,7 +88,9 @@ export function renderProfileToggle() {
       if (btn.dataset.perfil === state.perfilId) return;
       setPerfil(btn.dataset.perfil);
       renderProfileToggle();
-      irPara("home");
+      const scroll = document.getElementById("main-scroll");
+      if (scroll) scroll.scrollTop = 0;
+      if (onNavigate) onNavigate(telaAtual);
     });
   });
 
