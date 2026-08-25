@@ -25,8 +25,8 @@ function desenharWorkouts(fichas) {
   const el = document.getElementById("screen-workouts");
 
   el.innerHTML = `
-    <button id="btn-nova-ficha" aria-label="Novo treino" class="w-full bg-clay text-ink font-extrabold uppercase tracking-wide rounded-2xl py-4 mb-6 flex items-center justify-center gap-2.5 active:scale-95 transition-transform">
-      <i data-lucide="plus" class="w-5 h-5"></i>
+    <button id="btn-nova-ficha" aria-label="Novo treino" class="inline-flex bg-clay text-ink font-extrabold uppercase tracking-wide text-sm rounded-full py-2.5 px-5 mb-6 items-center justify-center gap-2 active:scale-95 transition-transform">
+      <i data-lucide="plus" class="w-4 h-4"></i>
       Novo treino
     </button>
     <div class="flex flex-col gap-3" id="lista-fichas">
@@ -49,10 +49,9 @@ function desenharWorkouts(fichas) {
               ${f.exercicios
                 .map(
                   (ex) => `
-                <div class="flex items-center gap-3 bg-paper border border-hairline rounded-xl p-2.5">
-                  <img src="${ex.imagem}" loading="lazy" class="w-10 h-10 rounded-lg object-cover shrink-0" />
-                  <span class="flex-1 text-sm font-semibold">${ex.nome}</span>
-                  <span class="text-xs text-muted font-bold shrink-0">${ex.series}x${ex.reps}</span>
+                <div class="flex items-center gap-3 bg-paper border border-hairline rounded-xl py-2.5 px-3">
+                  <span class="flex-1 text-sm font-semibold truncate">${ex.nome}</span>
+                  <span class="text-xs text-clay font-extrabold shrink-0 bg-claySoft/40 rounded-full px-2.5 py-1">${ex.series}<span class="text-muted font-bold">x</span>${ex.reps}</span>
                 </div>`
                 )
                 .join("")}
