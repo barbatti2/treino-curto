@@ -47,22 +47,19 @@ function desenharWorkouts(fichas) {
             <i data-lucide="chevron-right" class="w-5 h-5 text-muted shrink-0 ficha-chevron"></i>
           </div>
           <div class="group-body" data-ficha-body="${f.id}">
-            <div class="flex flex-col gap-4 px-4 pb-4 pt-0">
-              <div class="ex-trilha overflow-x-auto no-scrollbar -mx-1 px-1">
-                ${f.exercicios
-                  .map((ex, i) => {
-                    const equipamento = EXERCISES[ex.exercicioId]?.equipamento;
-                    return `
-                ${i > 0 ? `<div class="ex-trilha__conector"></div>` : ""}
-                <div class="ex-trilha__item">
-                  <div class="ex-trilha__icone">${iconeEquipamento(equipamento)}</div>
-                  <span class="ex-trilha__series">${ex.series}x${ex.reps}</span>
-                  <span class="ex-trilha__nome">${ex.nome}</span>
+            <div class="flex flex-col gap-2 px-4 pb-4 pt-0">
+              ${f.exercicios
+                .map((ex) => {
+                  const equipamento = EXERCISES[ex.exercicioId]?.equipamento;
+                  return `
+                <div class="flex items-center gap-3 bg-paper border border-hairline rounded-xl py-2.5 px-3">
+                  <div class="w-10 h-10 rounded-full bg-card border border-hairline text-muted shrink-0 flex items-center justify-center">${iconeEquipamento(equipamento)}</div>
+                  <span class="flex-1 text-sm font-semibold truncate">${ex.nome}</span>
+                  <span class="text-xs text-clay font-extrabold shrink-0 bg-claySoft/40 rounded-full px-2.5 py-1">${ex.series}<span class="text-muted font-bold">x</span>${ex.reps}</span>
                 </div>`;
-                  })
-                  .join("")}
-              </div>
-              <button type="button" data-id="${f.id}" class="btn-excluir-ficha flex items-center justify-center gap-2 text-clay text-sm font-bold py-2.5">
+                })
+                .join("")}
+              <button type="button" data-id="${f.id}" class="btn-excluir-ficha mt-1 flex items-center justify-center gap-2 text-clay text-sm font-bold py-2.5">
                 <i data-lucide="trash-2" class="w-[16px] h-[16px]"></i> Excluir treino
               </button>
             </div>
